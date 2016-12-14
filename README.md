@@ -12,12 +12,12 @@ It has all of the necessary properties to be considered one, but also accomdates
 
 This means we have a choice to make, and like water, programmers often choose to take the path of least resistance. In this case that means leaning on the principles we learned in our `java` / `c#` / `ruby` / `etc...` backgrounds.
 
-Javascript adopts concepts from lots of classic functional languages, so lets explore the benefits leveraging some of this awesome power sitting right under our nose everyday.
+Javascript adopts concepts from lots of classic functional languages, so lets explore the benefits leveraging this awesome power that sits right under our nose everyday.
 
 ---
 
 ## Null Checks
-Lets say an API responds to us with an array of animals: 
+Lets say an API responds to us with an array of animals:
 
 ```javascript
 const animals = [
@@ -46,9 +46,9 @@ This is the kind of task we all encounter frequently in the course of working ju
 	1. Nested for loops that filter out each layer of presence/absence before pushing to a mutable results array
 
 		```javascript
-		function bestFriendNames(animals) {  
+		function bestFriendNames(animals) {
 		  const results = []
-		  
+
 		  if (animals.length) {
 		    animals.forEach(animal => {
 		      if (animal.friends && animal.friends.length) {
@@ -58,17 +58,17 @@ This is the kind of task we all encounter frequently in the course of working ju
 		      }
 		    })
 		  }
-		  
+
 		  return results
 		}
-		``` 
+		```
 
 	1. Unnest and use sequential temp arrays from manual `for` or `forEach` filter operations until the final result is reached.
 
 		```javascript
 		function bestFriendsNames(animals) {
 		  const friendNames = []
-		  
+
 		  // Get the friendNames of any animals with friends
 		  if (animals && animals.length) {
 		    animals.forEach(animal => {
@@ -77,22 +77,22 @@ This is the kind of task we all encounter frequently in the course of working ju
 		      }
 		    })
 		  }
-		  
+
 		  const result = []
-		  
+
 		  // Filter out any undefined values from last step
 		  if (friendNames.length) {
 		    friendNames.forEach(name => {
 		      if (name) result.push(name)
 		    })
 		  }
-		  
+
 		  return result
-		} 
+		}
 		```
 
 	1. Use a `functor` with its generic transformer _(`map`)_, in this case the JS native `Array.map` to pull properties and `Array.filter` to remove falsy values via an identity function `(x => x)` that acts as a predicate and returns false for undefined and null
-	
+
 		```javascript
 		const bestFriendNames = animals => animals
 		  .map(x => x.friends)
@@ -105,7 +105,7 @@ This is the kind of task we all encounter frequently in the course of working ju
 1. each is responsible for reading properties, as well as dealing with `empty`/`null`/`undefined` values.
 1. using these approaches our existence checking and filtering basically **must** be implemented _one-off_ and even if we can abstract it, it will always be done _inline_, meaning we can't easily re-use all the effort and thought that goes in to our solving.
 
-> Wouldn't it be great if these functions could be more simple and trusting? Like _Forest Gump_? 
+> Wouldn't it be great if these functions could be more simple and trusting? Like _Forest Gump_?
 
 ---
 
@@ -121,13 +121,13 @@ Ok I said it, but humor me and lets just think of a monad as a container, it can
 
 Every monad has something its good at, a calling if you will. For `Maybe`, that calling is simply to **help us deal differently with values we want and values we don't**
 
-The way does that is simple. Maybe has to represent any value we give it as one of two _"child"_ types, `Just` and `Nothing`. 
+The way does that is simple. Maybe has to represent any value we give it as one of two _"child"_ types, `Just` and `Nothing`.
 
-When we ask our maybe to transform its value _(`map`)_, or to transform the value and put it in a new container _(`chain`)_, it will just skip over our request if the value it contains is considered a `Nothing` value. 
+When we ask our maybe to transform its value _(`map`)_, or to transform the value and put it in a new container _(`chain`)_, it will just skip over our request if the value it contains is considered a `Nothing` value.
 _ex._
 
 ```javascript
-const add1 = x => x + 1 
+const add1 = x => x + 1
 
 Just(1).map(add1).map(add1)    //=> Just(3)
 Nothing(1).map(add1).map(add1) //=> Nothing()
@@ -144,14 +144,14 @@ First a little glossary, rather than talk about these individually I have linked
 - Ramda
 	- [`pipe`](http://ramdajs.com/docs/#pipe)
 	- [`pipeK`](http://ramdajs.com/docs/#pipeK)
-	- [`map`](http://ramdajs.com/docs/#map) 
+	- [`map`](http://ramdajs.com/docs/#map)
 - Sanctuary
-	- [`Maybe.of`](https://github.com/sanctuary-js/sanctuary#maybeof--a---maybea) 
-	- [`justs`](https://github.com/sanctuary-js/sanctuary#justs) 
+	- [`Maybe.of`](https://github.com/sanctuary-js/sanctuary#maybeof--a---maybea)
+	- [`justs`](https://github.com/sanctuary-js/sanctuary#justs)
 	- [`head`](https://github.com/sanctuary-js/sanctuary#head)
-	- [`get`](https://github.com/sanctuary-js/sanctuary#get)  
+	- [`get`](https://github.com/sanctuary-js/sanctuary#get)
 
-	
+
 Now we can:
 
 ```javascript
@@ -160,7 +160,7 @@ import S from 'sanctuary';
 
 const bestFriendsName = R.pipeK(
   S.get(Array, 'friends'),  // <-- return Just(value of 'friends' prop)
-  S.head,				    // <-- return Just(first element of array) 
+  S.head,				    // <-- return Just(first element of array)
   S.get(String, 'name')     // <-- return Just(value of 'name' prop)
 )
 
