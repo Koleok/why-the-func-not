@@ -37,7 +37,7 @@ We know the following things
 
 Now lets say our job is to get an array `[String]` of the names of **best friends** of all our animals.
 
-This is the kind of task we all encounter frequently in the course of working just about anywhere in the software universe, I like to call it the **If this is a thing** problem though of course called a null check 😁.
+This is the kind of task we all encounter frequently in the course of working just about anywhere in the software universe, I like to call it the **If this is a thing** problem though of course its often called a null check 😁.
 
 ---
 
