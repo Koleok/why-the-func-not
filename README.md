@@ -43,7 +43,7 @@ This is the kind of task we all encounter frequently in the course of working ju
 
 1. The **If this is a thing** problem can be approached several ways
 
-	1. Nested for loops that filter out each layer of presence/absence before pushing to a mutable results array
+	1. Nested for loops that filter out each layer of presence/absence before pushing to a mutable results array [repl](https://goo.gl/QVyk0Q)
 
 		```javascript
 		function bestFriendNames(animals) {
@@ -63,10 +63,10 @@ This is the kind of task we all encounter frequently in the course of working ju
 		}
 		```
 
-	1. Unnest and use sequential temp arrays from manual `for` or `forEach` filter operations until the final result is reached.
+	1. Unnest and use sequential temp arrays from manual `for` or `forEach` filter operations until the final result is reached [repl](https://goo.gl/joZzBQ).
 
 		```javascript
-		function bestFriendsNames(animals) {
+		function bestFriendNames(animals) {
 		  const friendNames = []
 
 		  // Get the friendNames of any animals with friends
@@ -91,7 +91,7 @@ This is the kind of task we all encounter frequently in the course of working ju
 		}
 		```
 
-	1. Use a `functor` with its generic transformer _(`map`)_, in this case the JS native `Array.map` to pull properties and `Array.filter` to remove falsy values via an identity function `(x => x)` that acts as a predicate and returns false for undefined and null
+	1. Use a `functor` with its generic transformer _(`map`)_, in this case the JS native `Array.map` to pull properties and `Array.filter` to remove falsy values via an identity function `(x => x)` that acts as a predicate and returns false for undefined and null [repl](https://goo.gl/nsdRwD)
 
 		```javascript
 		const bestFriendNames = animals => animals
