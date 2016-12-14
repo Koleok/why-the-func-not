@@ -16,6 +16,21 @@ Javascript adopts concepts from lots of classic functional languages, so lets ex
 
 ---
 
+## A note on purity
+
+When we say a function is _pure_ in functional programming, it specifically means these two things:
+
+- the same input will always result in the same output
+- the function does not reach out and effect anything outside its own scope
+
+This is the technical definition, but I think there is also symbolic meaning to the term **pure function** that can guide the way we think while writing functions.
+
+When we say a child is pure, we are referring more to innocence. The child is pure because they are unaware of problems with the world, they haven't learned to fear things or to take precautions. When writing programs in a functional way, we can seek to write our functions like this. Our _kid_ functions can be not only pure, but also innocent 😳.
+
+Keep this in mind, we'll come back to it later.
+
+---
+
 ## Null Checks
 Lets say an API responds to us with an array of animals:
 
@@ -101,9 +116,31 @@ This is the kind of task we all encounter frequently in the course of working ju
 		  .filter(x => x)
 		```
 
+  1. Use some handy ramda functions to compose a pipeline of pure functions, where the contract between each has been considered carefully [repl](https://goo.gl/cfkKmF).
+
+		```javascript
+	    const compact = R.filter(S.I)
+
+	    const nameOfFirst = R.pipe(
+	      R.head,
+	      defaultTo({}),
+	      R.prop('name')
+	    )
+
+	    const bestFriendNames = R.pipe(
+	      R.map(R.prop('friends')),
+	      compact,
+	      R.map(nameOfFirst),
+	      compact
+	    )
+		```
+
 ### All of these solutions have some things in common
-1. each is responsible for reading properties, as well as dealing with `empty`/`null`/`undefined` values.
-1. using these approaches our existence checking and filtering basically **must** be implemented _one-off_ and even if we can abstract it, it will always be done _inline_, meaning we can't easily re-use all the effort and thought that goes in to our solving.
+They are suspicious, defensive. Like cynical adults who think they have planned for every possible contingency.
+
+In each case:
+1. the function is responsible for reading properties, as well as dealing with `empty`/`null`/`undefined` values.
+1. our existence checking and filtering basically **must** be implemented _one-off_ and even if we can abstract it, it will always be done _inline_, meaning we can't easily re-use all the effort and thought that goes in to our solving.
 
 > Wouldn't it be great if these functions could be more simple and trusting? Like _Forest Gump_?
 
